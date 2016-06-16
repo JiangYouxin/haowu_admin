@@ -55,7 +55,7 @@ export default class Post extends React.Component {
             <td style={styles.td}>{post.w}*{post.h}</td>
             <td style={styles.td}>
                 <a onClick={this.play.bind(this)}>播放语音</a>
-                <audio ref="audio" src={fconf.qiniu.site + post.audio_id} />
+                <audio ref="audio" src={fconf.qiniu.site + post.audio_id + '_mp3'} />
             </td>
             <td style={styles.td}>{Math.floor(post.length/1000)}{'"'}</td>
             <td style={styles.td}>{(post.likes || []).length}赞 {(post.reads || []).length}听过</td>

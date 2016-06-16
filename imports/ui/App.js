@@ -11,7 +11,7 @@ var App = ({posts, users}) => {
         <div className="container">
             <table className="table table-striped">
             { posts.map((post) => {
-                var user = _.find(users, (user)=>(user.openid == post.openid));
+                var user = _.find(users, (user)=>(user._id == post.user_id));
                 return user && <Post key={post._id} post={post} user={user}/> || null;
             })}
             </table>
