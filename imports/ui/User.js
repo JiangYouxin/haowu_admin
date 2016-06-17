@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { users } from '../api/users.js';
+import { users } from '../api/collections.js';
 import { createContainer } from 'meteor/react-meteor-data';
 
 var fconf = {

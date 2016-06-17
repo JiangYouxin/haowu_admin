@@ -1,7 +1,8 @@
 import React from 'react';
 import moment from 'moment';
-import { posts } from '../api/posts.js';
+import { posts, audios } from '../api/collections.js';
 import { render } from 'react-dom';
+import { createContainer } from 'meteor/react-meteor-data';
 import User from './User';
 
 var fconf = {
@@ -10,7 +11,7 @@ var fconf = {
     }
 }
 
-export default class Post extends React.Component {
+class Post extends React.Component {
     play() {
         // TODO: 播放，现在要兼容三个平台
         var { post } = this.props;
@@ -41,9 +42,9 @@ export default class Post extends React.Component {
         $('#modal').modal('show');
     }
     render() {
-        var { post, user } = this.props;
-        return <tr className="success">
-            <td style={styles.td}>{moment.unix(post._id.getTimestamp()).format('YYYY-MM-DD hh:mm:ss')}</td>
+        var { post, user, audio } = this.props;
+        return <tr>
+            <td style={styles.td}>{moment.unix(post._id.getTimestamp()).format('YYYY-MM-DD HH:mm:ss')}</td>
             <td style={styles.td} onClick={this.user.bind(this)}>
                 <img src={user.headimgurl} style={{width: 36, height:36, borderRadius: '50%', marginRight: 5}} />
                 { user.nickname }
@@ -58,7 +59,7 @@ export default class Post extends React.Component {
                 <audio ref="audio" src={fconf.qiniu.site + post.audio_id + '_mp3'} />
             </td>
             <td style={styles.td}>{Math.floor(post.length/1000)}{'"'}</td>
-            <td style={styles.td}>{(post.likes || []).length}赞 {(post.reads || []).length}听过</td>
+            <td style={styles.td}>{(post.likes || []).length}赞 {(audio && audio.reads || []).length}听过</td>
             <td style={styles.td}>
                 {post.status==0 && <button type="button" style={styles.btn} className="btn btn-default" disabled="disabled">已删除</button>}
                 {post.status!=0 && <a type="button" style={styles.btn} className="btn btn-danger" onClick={this.remove.bind(this)}>删除</a>}
@@ -68,6 +69,12 @@ export default class Post extends React.Component {
         </tr>
     }
 }
+
+export default createContainer((props) => {
+    return {
+        audio: audios.findOne({audio_id: props.post.audio_id})
+    }
+}, Post);
 
 var styles = {
     td: {
