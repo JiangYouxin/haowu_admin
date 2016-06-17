@@ -1,1 +1,16 @@
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 5px;
+}
+
+.vm {
+    vertical-align: middle;
+}
+
+.btn-r2 {
+    margin-right: 2px;
+}
 /* CSS declarations go here */

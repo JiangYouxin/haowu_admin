@@ -59,7 +59,7 @@ class Post extends React.Component {
                 <audio ref="audio" src={fconf.qiniu.site + post.audio_id + '_mp3'} />
             </td>
             <td style={styles.td}>{Math.floor(post.length/1000)}{'"'}</td>
-            <td style={styles.td}>{(post.likes || []).length}赞 {(audio && audio.reads || []).length}听过</td>
+            <td style={styles.td}>{(post.likes || []).length} / {(audio && audio.reads || []).length}</td>
             <td style={styles.td}>
                 {post.status==0 && <button type="button" style={styles.btn} className="btn btn-default" disabled="disabled">已删除</button>}
                 {post.status!=0 && <a type="button" style={styles.btn} className="btn btn-danger" onClick={this.remove.bind(this)}>删除</a>}
