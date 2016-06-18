@@ -37,15 +37,11 @@ class Post extends React.Component {
         if (confirm('您确认要删除么？'))
             posts.update(this.props.post._id, { $set: {status: 0} });
     }
-    user() {
-        render(<User user={this.props.user} />, document.getElementById('modal'));
-        $('#modal').modal('show');
-    }
     render() {
         var { post, user, audio } = this.props;
         return <tr>
             <td style={styles.td}>{moment.unix(post._id.getTimestamp()).format('YYYY-MM-DD HH:mm:ss')}</td>
-            <td style={styles.td} onClick={this.user.bind(this)}>
+            <td style={styles.td} onClick={()=>{User.popup(user._id)}}>
                 <img src={user.headimgurl} style={{width: 36, height:36, borderRadius: '50%', marginRight: 5}} />
                 { user.nickname }
                 { user.status == 2 && <span className="label-danger label"  style={{marginLeft: 4}}>已拉黑</span>}

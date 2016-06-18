@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from 'react-dom';
 import moment from 'moment';
 import { users } from '../api/collections.js';
 import { createContainer } from 'meteor/react-meteor-data';
@@ -9,7 +10,7 @@ var fconf = {
     }
 }
 
-class User extends React.Component {
+class _User extends React.Component {
     block() {
         users.update(this.props.user._id, {$set: {status: 2}});
     }
@@ -49,9 +50,19 @@ class User extends React.Component {
     }
 }
 
-export default createContainer((props) => {
-    var user = users.findOne({_id: props.user._id});
+var User = createContainer((props) => {
+    var user = users.findOne({_id: props._id});
     return {
         user: user
     }
-}, User);
+}, _User);
+
+export default {
+    popup: (_id) => {
+        render (
+            <User _id={_id} />,
+            document.getElementById('modal')
+        );
+        $('#modal').modal('show');
+    }
+}
