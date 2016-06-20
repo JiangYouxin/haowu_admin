@@ -18,7 +18,8 @@ var Posts = ({posts, users}) => {
                         <th>图尺寸</th>
                         <th>语音</th>
                         <th>语音长度</th>
-                        <th>赞/听</th>
+                        <th>赞/听/Feed流展现</th>
+                        <th>权重(时间降权前)</th>
                         <th />
                     </tr>
                 </thead>

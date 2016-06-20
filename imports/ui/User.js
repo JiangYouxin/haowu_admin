@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import moment from 'moment';
-import { users } from '../api/collections.js';
+import { users, user_feeds } from '../api/collections.js';
 import { createContainer } from 'meteor/react-meteor-data';
 
 var fconf = {
@@ -17,8 +17,11 @@ class _User extends React.Component {
     unblock() {
         users.update(this.props.user._id, {$set: {status: 1}});
     }
+    resetFeed(){
+        user_feeds.remove(this.props.user_feed._id);
+    }
     render() {
-        var { user } = this.props;
+        var { user, user_feed } = this.props;
         return (
             <div className="modal-dialog">
                 <div className="modal-content">
@@ -38,9 +41,12 @@ class _User extends React.Component {
                             <dd>{(user.subids || []).length}</dd>
                             <dt>清除通知时间</dt>
                             <dd>{user.clear_badge && moment(new Date(user.clear_badge)).format('YYYY-MM-DD hh:mm:ss')}</dd>
+                            <dt>上次刷Feed</dt>
+                            <dd>{user_feed && moment(new Date(user_feed.updatedAt)).format('YYYY-MM-DD hh:mm:ss')}</dd>
                         </dl>
                     </div>
                     <div className="modal-footer">
+                        <button type="button" className="btn btn-warning" onClick={this.resetFeed.bind(this)}>重置Feed流</button>
                         { user.status == 1 && <button type="button" className="btn btn-primary" onClick={this.block.bind(this)}>加入黑名单</button> }
                         { user.status == 2 && <button type="button" className="btn btn-success" onClick={this.unblock.bind(this)}>移出黑名单</button> }
                     </div>
@@ -52,8 +58,10 @@ class _User extends React.Component {
 
 var User = createContainer((props) => {
     var user = users.findOne({_id: props._id});
+    var user_feed = user_feeds.findOne({user_id: props._id.valueOf()})
     return {
-        user: user
+        user: user,
+        user_feed: user_feed
     }
 }, _User);
 
