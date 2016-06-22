@@ -22,6 +22,7 @@ class UserFeed extends React.Component {
                     { user.nickname }
                 </td>
                 <td style={styles.td}>{(user.subids || []).length}</td>
+                <td style={styles.td}>{user.post_count}/{user.reads_count}</td>
                 <td style={styles.td}>{moment(user_feed.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</td>
                 <td style={styles.td}>{user_feed.posts.length}</td>
                 <td style={styles.td}>{read_count}</td>

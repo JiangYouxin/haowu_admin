@@ -39,10 +39,12 @@ class _User extends React.Component {
                             <dd>{user.province} {user.city}</dd>
                             <dt>被订阅</dt>
                             <dd>{(user.subids || []).length}</dd>
+                            <dt>发帖/被听</dt>
+                            <dd>{user.post_count}/{user.reads_count}</dd>
                             <dt>清除通知时间</dt>
-                            <dd>{user.clear_badge && moment(new Date(user.clear_badge)).format('YYYY-MM-DD hh:mm:ss')}</dd>
+                            <dd>{user.clear_badge && moment(new Date(user.clear_badge)).format('YYYY-MM-DD HH:mm:ss')}</dd>
                             <dt>上次刷Feed</dt>
-                            <dd>{user_feed && moment(new Date(user_feed.updatedAt)).format('YYYY-MM-DD hh:mm:ss')}</dd>
+                            <dd>{user_feed && moment(new Date(user_feed.updatedAt)).format('YYYY-MM-DD HH:mm:ss')}</dd>
                         </dl>
                     </div>
                     <div className="modal-footer">
