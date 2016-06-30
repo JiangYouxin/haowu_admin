@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
 
 var App = ({children, location}) => {
     return (
@@ -22,4 +24,9 @@ var App = ({children, location}) => {
     );
 };
 
-export default App;
+export default createContainer(() => {
+    Meteor.subscribe('all');
+    return {
+
+    }
+}, App);

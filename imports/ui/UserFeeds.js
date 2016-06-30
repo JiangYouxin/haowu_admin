@@ -17,7 +17,6 @@ var UserFeeds = ({user_feeds}) => {
                         <th>发帖/被听</th>
                         <th>刷新Feed时间</th>
                         <th>阅读条数</th>
-                        <th>总听过</th>
                     </tr>
                 </thead>
                 <tbody>

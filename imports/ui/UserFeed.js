@@ -14,7 +14,7 @@ var fconf = {
 
 class UserFeed extends React.Component {
     render() {
-        var { user_feed, user, read_count } = this.props;
+        var { user_feed, user } = this.props;
         return (
             user && <tr>
                 <td style={styles.td} onClick={()=>{User.popup(user._id)}}>
@@ -25,7 +25,6 @@ class UserFeed extends React.Component {
                 <td style={styles.td}>{user.post_count}/{user.reads_count}</td>
                 <td style={styles.td}>{moment(user_feed.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</td>
                 <td style={styles.td}>{user_feed.posts.length}</td>
-                <td style={styles.td}>{read_count}</td>
             </tr> || null
         );
     }
@@ -33,8 +32,7 @@ class UserFeed extends React.Component {
 
 export default createContainer((props) => {
     return {
-        user: users.findOne({_id: new Mongo.ObjectID(props.user_feed.user_id)}),
-        read_count: audios.find({reads: props.user_feed.user_id}).count()
+        user: users.findOne({_id: new Mongo.ObjectID(props.user_feed.user_id)})
     }
 }, UserFeed);
 

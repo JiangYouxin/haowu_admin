@@ -18,7 +18,6 @@ var Posts = ({posts, users}) => {
                         <th>图尺寸</th>
                         <th>语音</th>
                         <th>语音长度</th>
-                        <th>赞/听/Feed流展现</th>
                         <th>权重(时间降权前)</th>
                         <th />
                     </tr>
@@ -38,7 +37,8 @@ var Posts = ({posts, users}) => {
 export default createContainer(() => {
     return {
         posts: posts.find({}, {
-            sort: { _id: -1 }
+            sort: { _id: -1 },
+            limit: 40
         }).fetch(),
         users: users.find({}).fetch()
     }

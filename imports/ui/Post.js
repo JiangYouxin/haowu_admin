@@ -38,7 +38,7 @@ class Post extends React.Component {
             posts.update(this.props.post._id, { $set: {status: 0} });
     }
     render() {
-        var { post, user, audio, views } = this.props;
+        var { post, user } = this.props;
         return <tr>
             <td style={styles.td}>{moment.unix(post._id.getTimestamp()).format('YYYY-MM-DD HH:mm:ss')}</td>
             <td style={styles.td} onClick={()=>{User.popup(user._id)}}>
@@ -55,7 +55,6 @@ class Post extends React.Component {
                 <audio ref="audio" src={fconf.qiniu.site + post.audio_id + '_mp3'} />
             </td>
             <td style={styles.td}>{Math.floor(post.length/1000)}{'"'}</td>
-            <td style={styles.td}>{(post.likes || []).length} / {(audio && audio.reads || []).length} / {views}</td>
             <td style={styles.td}>{post.rank0.toFixed(2)}</td>
             <td style={styles.td}>
                 {post.status==0 && <button type="button" style={styles.btn} className="btn btn-default" disabled="disabled">已删除</button>}
@@ -67,12 +66,7 @@ class Post extends React.Component {
     }
 }
 
-export default createContainer((props) => {
-    return {
-        audio: audios.findOne({audio_id: props.post.audio_id}),
-        views: user_feeds.find({posts: props.post._id.valueOf()}).count()
-    }
-}, Post);
+export default Post; 
 
 var styles = {
     td: {

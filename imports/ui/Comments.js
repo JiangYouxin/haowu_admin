@@ -17,7 +17,7 @@ var Comments = ({comments}) => {
 export default createContainer(() => {
     return {
         comments: comments.find({}, {
-            sort: { _id: -1 }
+            sort: { updatedAt: -1 }
         }).fetch()
     }
 }, Comments);
