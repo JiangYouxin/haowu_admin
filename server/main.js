@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { HTTP } from 'meteor/http';
-import { users, posts, audios, comments, user_feeds, qr_codes } from '../imports/api/collections.js';
+import { users, posts, audios, comments, topics, user_feeds, qr_codes } from '../imports/api/collections.js';
 
 Meteor.startup(() => {
     var opts = {
@@ -14,6 +14,7 @@ Meteor.startup(() => {
     audios.allow(opts);
     comments.allow(opts);
     user_feeds.allow(opts);
+    topics.allow(opts);
 
     Meteor.methods({
         login: function({openid, token}) {
@@ -39,12 +40,16 @@ Meteor.startup(() => {
         return [
             users.find({}),
             posts.find({}),
-            user_feeds.find({}),
+            user_feeds.find({}, {
+                sort: { updatedAt: -1 },
+                limit: 80
+            }),
             audios.find({}),
             comments.find({}, {
                 sort: { uptime: -1 },
                 limit: 40
-            })
+            }),
+            topics.find({})
         ]
     });
     Meteor.publish('qr_code', function() {

@@ -43,8 +43,6 @@ class _User extends React.Component {
                             <dd>{user.post_count}/{user.reads_count}</dd>
                             <dt>清除通知时间</dt>
                             <dd>{user.clear_badge && moment(new Date(user.clear_badge)).format('YYYY-MM-DD HH:mm:ss')}</dd>
-                            <dt>上次刷Feed</dt>
-                            <dd>{user_feed && moment(new Date(user_feed.updatedAt)).format('YYYY-MM-DD HH:mm:ss')}</dd>
                         </dl>
                     </div>
                     <div className="modal-footer">
@@ -60,10 +58,8 @@ class _User extends React.Component {
 
 var User = createContainer((props) => {
     var user = users.findOne({_id: props._id});
-    var user_feed = user_feeds.findOne({user_id: props._id.valueOf()})
     return {
-        user: user,
-        user_feed: user_feed
+        user: user
     }
 }, _User);
 

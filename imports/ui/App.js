@@ -13,6 +13,9 @@ var App = ({children, location}) => {
                 <li role="presentation" className={location.pathname == '/comments' ? 'active' : ''}>
                     <Link to="/comments">评论</Link>
                 </li>
+                <li role="presentation" className={location.pathname == '/topics' ? 'active' : ''}>
+                    <Link to="/topics">专辑</Link>
+                </li>
                 <li role="presentation" className={location.pathname == '/user_feeds' ? 'active' : ''}>
                     <Link to="/user_feeds">活跃用户</Link>
                 </li>
