@@ -17,7 +17,18 @@ class Topic extends React.Component {
             topics.update(this.props.topic._id, { $set: {status: 0} });
     }
     mark() {
-        topics.update(this.props.topic._id, { $set: {mark: 1} });
+        if (confirm('推到首页会给专辑作者发模板消息，是否继续？')) {
+            topics.update(this.props.topic._id, { $set: {mark: 1} });
+            Meteor.call('notify_topic', {
+                topic_id: this.props.topic._id
+            }, (err, r) => {
+                if (!err && r) {
+                    alert('模板消息发送成功');
+                } else {
+                    alert('模板消息发送失败');
+                }
+            });
+        }
     }
     unmark() {
         topics.update(this.props.topic._id, { $set: {mark: 0} });

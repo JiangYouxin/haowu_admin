@@ -34,6 +34,10 @@ Meteor.startup(() => {
                 }
             }
             return false;
+        },
+        notify_topic: function({topic_id}) {
+            var result = HTTP.call('GET', 'http://localhost:8080/internal/notify_mark?topic_id=' + topic_id);
+            return result.data.result == 'ok';
         }
     });
     Meteor.publish('all', function() {
