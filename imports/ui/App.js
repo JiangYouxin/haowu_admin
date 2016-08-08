@@ -16,6 +16,9 @@ var App = ({children, location}) => {
                 <li role="presentation" className={location.pathname == '/topics' ? 'active' : ''}>
                     <Link to="/topics">专辑</Link>
                 </li>
+                <li role="presentation" className={location.pathname == '/asks' ? 'active' : ''}>
+                    <Link to="/asks">话题</Link>
+                </li>
                 <li role="presentation" className={location.pathname == '/user_feeds' ? 'active' : ''}>
                     <Link to="/user_feeds">活跃用户</Link>
                 </li>
