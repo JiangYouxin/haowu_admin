@@ -53,6 +53,18 @@ Meteor.startup(() => {
             }));
             console.log(result);
             return result.data.result == 'ok';
+        },
+        notify_remove_ask: function({post_id, reason}) {
+            console.log({
+                post_id,
+                reason
+            });
+            var result = HTTP.call('GET', 'http://localhost:8080/internal/notify_remove_ask?' + qs.stringify({
+                post_id,
+                reason
+            }));
+            console.log(result);
+            return result.data.result == 'ok';
         }
     });
     Meteor.publish('all', function() {

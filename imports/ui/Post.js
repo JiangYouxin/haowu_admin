@@ -37,6 +37,22 @@ class Post extends React.Component {
         if (confirm('您确认要删除么？'))
             posts.update(this.props.post._id, { $set: {status: 0} });
     }
+    remove_ask() {
+        var msg = prompt('请输入删除（审核不通过）理由');
+        if (msg) {
+            Meteor.call('notify_remove_ask', {
+                post_id: this.props.post._id.valueOf(),
+                reason: msg
+            }, (err, r) => {
+                if (!err && r) {
+                    posts.update(this.props.post._id, { $set: {ask_id: ''} });
+                    alert('模板消息发送成功');
+                } else {
+                    alert('模板消息发送失败');
+                }
+            });
+        }
+    }
     render() {
         var { post, user } = this.props;
         return <tr>
@@ -56,17 +72,19 @@ class Post extends React.Component {
             </td>
             <td style={styles.td}>{Math.floor(post.length/1000)}{'"'}</td>
             <td style={styles.td}>{post.rank0.toFixed(2)}</td>
+            <td style={styles.td}>{post.ask_id}</td>
             <td style={styles.td}>
                 {post.status==0 && <button type="button" style={styles.btn} className="btn btn-default" disabled="disabled">已删除</button>}
                 {post.status!=0 && <a type="button" style={styles.btn} className="btn btn-danger" onClick={this.remove.bind(this)}>删除</a>}
                 {post.status==1 && <a type="button" style={styles.btn} className="btn btn-primary" onClick={this.block.bind(this)}>屏蔽</a>}
                 {post.status==2 && <a type="button" style={styles.btn} className="btn btn-success" onClick={this.unblock.bind(this)}>解除屏蔽</a>}
+                {post.ask_id && <a type="button" style={styles.btn} className="btn btn-danger" onClick={this.remove_ask.bind(this)}>删除回答</a>}
             </td>
         </tr>
     }
 }
 
-export default Post; 
+export default Post;
 
 var styles = {
     td: {
