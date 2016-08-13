@@ -67,21 +67,92 @@ Meteor.startup(() => {
             return result.data.result == 'ok';
         }
     });
-    Meteor.publish('all', function() {
+    Meteor.publish('user_feeds', function() {
+        var user_feed_docs = user_feeds.find({}, {
+            sort: { updatedAt: -1 },
+            limit: 80
+        });
+        var user_docs = users.find({
+            _id: {
+                $in: user_feed_docs.map(doc=>new Mongo.ObjectID(doc.user_id))
+            }
+        });
         return [
-            users.find({}),
-            posts.find({}),
-            user_feeds.find({}, {
-                sort: { updatedAt: -1 },
-                limit: 80
-            }),
-            audios.find({}),
-            comments.find({}, {
-                sort: { uptime: -1 },
-                limit: 40
-            }),
-            topics.find({}),
-            asks.find({})
+            user_docs,
+            user_feed_docs
+        ];
+    });
+    Meteor.publish('posts', function() {
+        var post_docs = posts.find({});
+        var user_docs = users.find({
+            _id: {
+                $in: post_docs.map(doc=>new Mongo.ObjectID(doc.user_id))
+            }
+        });
+        return [
+            user_docs,
+            post_docs
+        ]
+    });
+    Meteor.publish('topics', function() {
+        var topic_docs = topics.find({});
+        var user_docs = users.find({
+            _id: {
+                $in: topic_docs.map(doc=>new Mongo.ObjectID(doc.user_id))
+            }
+        });
+        return [
+            user_docs,
+            topic_docs
+        ]
+    });
+    Meteor.publish('asks', function() {
+        var ask_docs = asks.find({});
+        var user_docs = users.find({
+            _id: {
+                $in: ask_docs.map(doc=>new Mongo.ObjectID(doc.user_id))
+            }
+        });
+        return [
+            user_docs,
+            ask_docs
+        ]
+    });
+    Meteor.publish('comments', function() {
+        var comment_docs = comments.find({}, {
+            sort: { uptime: -1 },
+            limit: 40
+        });
+        var post_docs = posts.find({
+            _id: {
+                $in: comment_docs.map(doc=>new Mongo.ObjectID(doc.post_id))
+            }
+        });
+        var post_user_ids = post_docs.map(doc=>new Mongo.ObjectID(doc.user_id));
+        var comment_user_ids = comment_docs.map(doc=>new Mongo.ObjectID(doc.user_id));
+        var replies = comment_docs.map(doc=>doc.replies);
+        var reply_user_ids = _.chain(replies)
+            .flatten()
+            .map(doc=>[doc.user_id, doc.user_id2])
+            .flatten()
+            .uniq()
+            .map(id=>new Mongo.ObjectID(id))
+            .value();
+        var user_ids = _.uniq([
+            ...post_user_ids,
+            ...comment_user_ids,
+            ...reply_user_ids
+        ]);
+
+        var user_docs = users.find({
+            _id: {
+                $in: user_ids
+            }
+        });
+        return [
+            user_docs,
+            post_docs,
+            comment_docs,
         ]
     });
     Meteor.publish('qr_code', function() {

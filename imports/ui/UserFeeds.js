@@ -29,8 +29,8 @@ var UserFeeds = ({user_feeds}) => {
     );
 };
 
-// TODO posts分页；user太多的性能问题
 export default createContainer(() => {
+    Meteor.subscribe('user_feeds');
     return {
         user_feeds: user_feeds.find({}, {sort: {updatedAt: -1}}).fetch()
     }

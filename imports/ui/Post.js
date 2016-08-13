@@ -67,18 +67,17 @@ class Post extends React.Component {
             </td>
             <td style={styles.td}>{post.w}*{post.h}</td>
             <td style={styles.td}>
-                <a onClick={this.play.bind(this)}>播放语音</a>
+                <a onClick={this.play.bind(this)}>播放</a>
                 <audio ref="audio" src={fconf.qiniu.site + post.audio_id + '_mp3'} />
             </td>
             <td style={styles.td}>{Math.floor(post.length/1000)}{'"'}</td>
             <td style={styles.td}>{post.rank0.toFixed(2)}</td>
-            <td style={styles.td}>{post.ask_id}</td>
+            <td style={styles.td}>{post.ask_id ? <a type="button" style={styles.btn} className="btn btn-danger" onClick={this.remove_ask.bind(this)}>移除</a> : ''}</td>
             <td style={styles.td}>
                 {post.status==0 && <button type="button" style={styles.btn} className="btn btn-default" disabled="disabled">已删除</button>}
                 {post.status!=0 && <a type="button" style={styles.btn} className="btn btn-danger" onClick={this.remove.bind(this)}>删除</a>}
                 {post.status==1 && <a type="button" style={styles.btn} className="btn btn-primary" onClick={this.block.bind(this)}>屏蔽</a>}
                 {post.status==2 && <a type="button" style={styles.btn} className="btn btn-success" onClick={this.unblock.bind(this)}>解除屏蔽</a>}
-                {post.ask_id && <a type="button" style={styles.btn} className="btn btn-danger" onClick={this.remove_ask.bind(this)}>删除回答</a>}
             </td>
         </tr>
     }

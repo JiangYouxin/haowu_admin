@@ -15,6 +15,7 @@ var Comments = ({comments}) => {
 
 // TODO posts分页；user太多的性能问题
 export default createContainer(() => {
+    Meteor.subscribe('comments');
     return {
         comments: comments.find({}, {
             sort: { uptime: -1 }

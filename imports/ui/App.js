@@ -31,7 +31,7 @@ var App = ({children, location}) => {
 };
 
 export default createContainer(() => {
-    Meteor.subscribe('all');
+    //Meteor.subscribe('all');
     return {
 
     }

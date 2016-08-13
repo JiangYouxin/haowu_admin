@@ -29,8 +29,8 @@ var Topics = ({topics, users}) => {
     );
 };
 
-// TODO posts分页；user太多的性能问题
 export default createContainer(() => {
+    Meteor.subscribe('topics');
     return {
         topics: topics.find({
             status: 1

@@ -13,8 +13,10 @@ import UserFeeds from '../imports/ui/UserFeeds.js';
 import Login from '../imports/ui/Login.js';
 
 function requireAuth(nextState, replace) {
+    /*
     if (!Meteor.connection.userId())
         replace('/login');
+        */
 }
 
 Meteor.startup(() => {
